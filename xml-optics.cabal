@@ -56,7 +56,6 @@ common common-attrs
     RecordWildCards
     RoleAnnotations
     ScopedTypeVariables
-    StandaloneKindSignatures
     TupleSections
     TypeApplications
     TypeFamilies
