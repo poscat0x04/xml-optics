@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 module Text.XML.Optics
   ( -- * Document
     Document (..),
@@ -184,7 +186,14 @@ infixr 9 ./
 -- | Compose two 'Traversal'' using 'plate'
 --
 -- @t1 './' t2 = t1 '%' 'plate' '%' t2@
+#if MIN_VERSION_optics_core(0,4,0)
+(./) :: (JoinKinds k1 l m, JoinKinds k2 A_Traversal k1,
+ AppendIndices is1 js ks, AppendIndices is2 (WithIx Int) is1) =>
+  Optic k2 is2 s t Element Element
+  -> Optic l js Element Element a b -> Optic m ks s t a b
+#else
 (./) :: (Is (Join k A_Traversal) (Join (Join k A_Traversal) l), Is l (Join (Join k A_Traversal) l), Is k (Join k A_Traversal), Is A_Traversal (Join k A_Traversal)) => Optic k is s t Element Element -> Optic l js Element Element a b -> Optic (Join (Join k A_Traversal) l) (Append (Append is (WithIx Int)) js) s t a b
+#endif
 o1 ./ o2 = o1 % plate % o2
 {-# INLINE (./) #-}
 
@@ -193,6 +202,13 @@ infixr 9 .//
 -- | A version of './' that ignores the index from 'plate'
 --
 -- @t1 './/' t1 = t1 '<%' 'plate' '%' t2@
+#if MIN_VERSION_optics_core(0,4,0)
+(.//) :: (AppendIndices is js ks, JoinKinds k1 l m,
+ JoinKinds k2 A_Traversal k1) =>
+  Optic k2 is s t Element Element
+  -> Optic l js Element Element a b -> Optic m ks s t a b
+#else
 (.//) :: (Is (Join k A_Traversal) (Join (Join k A_Traversal) l), Is l (Join (Join k A_Traversal) l), Is k (Join k A_Traversal), Is A_Traversal (Join k A_Traversal)) => Optic k is s t Element Element -> Optic l js Element Element a b -> Optic (Join (Join k A_Traversal) l) (Append is js) s t a b
+#endif
 o1 .// o2 = o1 <% plate % o2
 {-# INLINE (.//) #-}
