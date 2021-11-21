@@ -1,6 +1,6 @@
 cabal-version:   3.0
 name:            xml-optics
-version:         0.1.0
+version:         0.2.0
 synopsis:        Optics for xml-conduit
 description:
   Optics port of xml-lens, a collection of optics for xml-conduit
@@ -9,7 +9,7 @@ category:        XML
 license:         BSD-3-Clause
 license-file:    LICENSE
 author:          Poscat
-maintainer:      Poscat <poscat@mail.poscat.moe>
+maintainer:      Poscat <poscat@poscat.moe>
 copyright:       Copyright (c) Poscat 2021
 stability:       experimental
 homepage:        https://github.com/poscat0x04/xml-optics
